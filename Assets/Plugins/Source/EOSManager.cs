@@ -155,6 +155,14 @@ namespace PlayEveryWare.EpicOnlineServices
             // Need to keep track for shutting down EOS after a successful platform initialization
             static private bool s_hasInitializedPlatform = false;
 
+            static private LogMessageFunc s_logMessageFunc = null;
+            
+            //-------------------------------------------------------------------------
+            public void SetLogMessageFunc(LogMessageFunc logMessageFunc)
+            {
+                s_logMessageFunc = logMessageFunc;
+            }
+            
             //-------------------------------------------------------------------------
             /// <summary>
             /// 
@@ -505,7 +513,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                     if (!hasSetLoggingCallback)
                     {
-                        Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
+                        Epic.OnlineServices.Logging.LoggingInterface.SetCallback(CustomPrintCallback);
                         hasSetLoggingCallback = true;
                     }
 #if UNITY_EDITOR
@@ -565,7 +573,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 s_hasInitializedPlatform = true;
 
-                Epic.OnlineServices.Logging.LoggingInterface.SetCallback(SimplePrintCallback);
+                Epic.OnlineServices.Logging.LoggingInterface.SetCallback(CustomPrintCallback);
                 SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
 
 
@@ -630,6 +638,19 @@ namespace PlayEveryWare.EpicOnlineServices
                 }
 
                 UnityEngine.Debug.LogFormat(type, LogOption.NoStacktrace, null, "{0:O} {1}({2}): {3}", dateTime, messageCategory, message.Level, message.Message);
+            }
+            
+            //-------------------------------------------------------------------------
+            [MonoPInvokeCallback(typeof(LogMessageFunc))]
+            private static void CustomPrintCallback(ref LogMessage message)
+            {
+                if (s_logMessageFunc != null)
+                {
+                    s_logMessageFunc(ref message);
+                    return;
+                }
+                
+                SimplePrintCallback(ref message);
             }
 
             /// <summary>
