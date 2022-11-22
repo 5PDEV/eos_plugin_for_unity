@@ -512,8 +512,9 @@ namespace PlayEveryWare.EpicOnlineServices
                     SetLogLevel(LogCategory.AllCategories, LogLevel.VeryVerbose);
 #else
                     SetLogLevel(LogCategory.AllCategories, LogLevel.Warning);
-                    InitializeOverlay(coroutineOwner);
 #endif
+
+                    InitializeOverlay(coroutineOwner);
                     return;
                 }
 
@@ -579,9 +580,9 @@ namespace PlayEveryWare.EpicOnlineServices
                 UpdateEOSApplicationStatus();
 
                 loadedEOSConfig = configData;
-#if !UNITY_EDITOR
+
                 InitializeOverlay(coroutineOwner);
-#endif
+
                 print("EOS loaded");
             }
 
