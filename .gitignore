@@ -142,3 +142,5 @@ test-results/
 *IL2CPPCache/*
 *IL2CPPStats/*
 EOSPluginEditorConfiguration/
+
+.idea/
