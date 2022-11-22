@@ -36,6 +36,9 @@ using System.Runtime.InteropServices;
 #if UNITY_STANDALONE_OSX && EOS_PREVIEW_PLATFORM
 namespace PlayEveryWare.EpicOnlineServices 
 {
+    using System.Diagnostics;
+    using Debug = UnityEngine.Debug;
+
     //-------------------------------------------------------------------------
     public class EOSmacOSOptions : IEOSCreateOptions
     {
@@ -158,7 +161,7 @@ namespace PlayEveryWare.EpicOnlineServices
         /// <param name="configData"></param>
         public void ConfigureSystemInitOptions(ref IEOSInitializeOptions initializeOptionsRef, EOSConfig configData)
         {
-            Debug.Log("ConfigureSystemInitOptions");
+            print("ConfigureSystemInitOptions");
 
             EOSmacOSInitializeOptions initializeOptions = (initializeOptionsRef as EOSmacOSInitializeOptions);
 
@@ -169,7 +172,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
             if (GetEOS_macOSConfig() != null)
             {
-                Debug.Log("GetEOS_macOSConfig() is not null");
+                print("GetEOS_macOSConfig() is not null");
                 if (initializeOptions.OverrideThreadAffinity.HasValue)
                 {
                     var overrideThreadAffinity = initializeOptions.OverrideThreadAffinity.Value;
@@ -216,6 +219,13 @@ namespace PlayEveryWare.EpicOnlineServices
         public bool IsApplicationConstrainedWhenOutOfFocus()
         { 
             return false;
+        }
+        
+        //-------------------------------------------------------------------------
+        [Conditional("ENABLE_DEBUG_EOSMANAGER")]
+        static void print(string toPrint)
+        {
+            Debug.Log(toPrint);
         }
     }
 }

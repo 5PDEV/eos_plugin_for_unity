@@ -542,7 +542,7 @@ namespace PlayEveryWare.EpicOnlineServices
 
                 print("Loaded config file: " + configDataAsString);
                 Epic.OnlineServices.Result initResult = InitializePlatformInterface(configData);
-                UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
+                print($"EOSManager::Init: InitializePlatformInterface: initResult = {initResult}");
                 
                 if (initResult != Epic.OnlineServices.Result.Success)
                 {
@@ -552,7 +552,7 @@ namespace PlayEveryWare.EpicOnlineServices
                     ForceUnloadEOSLibrary();
                     LoadEOSLibraries();
                     var secondTryResult = InitializePlatformInterface(configData);
-                    UnityEngine.Debug.LogWarning($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
+                    print($"EOSManager::Init: InitializePlatformInterface: initResult = {secondTryResult}");
                     if (secondTryResult != Result.Success)
 #endif
 #if UNITY_EDITOR_OSX && EOS_PREVIEW_PLATFORM
@@ -596,7 +596,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 IEOSManagerPlatformSpecifics platformSpecifics = EOSManagerPlatformSpecifics.Instance;
                 if (platformSpecifics != null)
                 {
-                    UnityEngine.Debug.Log("EOSManager: Registering for platform-specific notifications");
+                    print("EOSManager: Registering for platform-specific notifications");
                     platformSpecifics.RegisterForPlatformNotifications();
                 }
             }

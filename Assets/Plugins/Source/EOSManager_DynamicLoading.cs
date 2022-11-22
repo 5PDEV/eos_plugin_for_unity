@@ -329,6 +329,10 @@ namespace PlayEveryWare.EpicOnlineServices
 #endif
 
 #if UNITY_EDITOR
+#if UNITY_STANDALONE_OSX
+                print("Free Library { " + EOSBinaryName + " } Not supported on mac");
+                return;
+#else
                 IntPtr existingHandle;
                 int timeout = 50;
                 do
@@ -346,6 +350,7 @@ namespace PlayEveryWare.EpicOnlineServices
                 {
                     UnityEngine.Debug.LogWarning("Free Library { " + EOSBinaryName + " }:Timeout");
                 }
+#endif
 #endif
             }
 
